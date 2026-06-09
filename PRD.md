@@ -602,7 +602,7 @@ Relacionamentos esperados:
 
 ## 9. Epicos do Produto
 
-- [ ] EP01 - Fundacao tecnica e arquitetura base.
+- [x] EP01 - Fundacao tecnica e arquitetura base.
 - [ ] EP02 - Autenticacao, usuarios e controle de acesso.
 - [ ] EP03 - Gestao de projetos.
 - [ ] EP04 - Configuracao de tipos de work items.
@@ -642,7 +642,7 @@ Relacionamentos esperados:
 - Estado de servidor: TanStack Query.
 - Estado local: Zustand.
 - Drag and drop: dnd-kit.
-- Editor de conteudo: TipTap ou Milkdown.
+- Editor de conteudo: TipTap.
 - Diagramas: Mermaid.
 - Graficos e dashboards: Recharts ou Apache ECharts.
 
@@ -686,31 +686,31 @@ Objetivo: definir base tecnica, padroes, arquitetura inicial e ambiente de desen
 
 Atividades:
 
-- [ ] Definir Node.js LTS 24 como runtime do backend.
-- [ ] Definir NestJS e TypeScript como base da API.
-- [ ] Definir Next.js, React e TypeScript como base do frontend.
-- [ ] Definir PostgreSQL como banco de dados principal.
-- [ ] Definir Prisma como ORM e ferramenta de migrations.
-- [ ] Definir Redis e BullMQ para cache, filas e processamento assincrono.
-- [ ] Definir Tailwind CSS e shadcn/ui como base visual do frontend.
-- [ ] Definir dnd-kit para drag and drop do Board Kanban.
-- [ ] Definir TipTap ou Milkdown como editor do Notebook e das descricoes de work items.
-- [ ] Definir Mermaid para diagramas.
-- [ ] Definir Recharts ou Apache ECharts para dashboards.
-- [ ] Definir S3 compatible storage para anexos e imagens.
-- [ ] Criar estrutura inicial do repositorio.
-- [ ] Configurar padroes de branch, commits e pull requests.
-- [ ] Configurar ambiente local.
-- [ ] Configurar variaveis de ambiente.
-- [ ] Criar pipeline inicial de build e testes.
-- [ ] Definir JWT com Refresh Token como padrao inicial de autenticacao.
-- [ ] Definir arquitetura modular.
+- [x] Definir Node.js LTS 24 como runtime do backend.
+- [x] Definir NestJS e TypeScript como base da API.
+- [x] Definir Next.js, React e TypeScript como base do frontend.
+- [x] Definir PostgreSQL como banco de dados principal.
+- [x] Definir Prisma como ORM e ferramenta de migrations.
+- [x] Definir Redis e BullMQ para cache, filas e processamento assincrono.
+- [x] Definir Tailwind CSS e shadcn/ui como base visual do frontend.
+- [x] Definir dnd-kit para drag and drop do Board Kanban.
+- [x] Definir TipTap como editor do Notebook e das descricoes de work items.
+- [x] Definir Mermaid para diagramas.
+- [x] Definir Recharts como biblioteca inicial para dashboards.
+- [x] Definir S3 compatible storage para anexos e imagens.
+- [x] Criar estrutura inicial do repositorio.
+- [x] Configurar padroes de branch, commits e pull requests.
+- [x] Configurar ambiente local.
+- [x] Configurar variaveis de ambiente.
+- [x] Criar pipeline inicial de build e testes.
+- [x] Definir JWT com Refresh Token como padrao inicial de autenticacao.
+- [x] Definir arquitetura modular.
 
 Entregaveis:
 
-- [ ] Projeto base executando localmente.
-- [ ] Documentacao inicial de setup.
-- [ ] Pipeline minimo configurado.
+- [x] Projeto base executando localmente.
+- [x] Documentacao inicial de setup.
+- [x] Pipeline minimo configurado.
 
 ### Sprint 1 - Autenticacao e Usuarios
 
@@ -1015,14 +1015,14 @@ Entregaveis:
 
 ## 14. Dependencias
 
-- [ ] Definicao da stack tecnica.
-- [ ] Definicao do banco de dados.
-- [ ] Definicao do padrao de autenticacao.
+- [x] Definicao da stack tecnica.
+- [x] Definicao do banco de dados.
+- [x] Definicao do padrao de autenticacao.
 - [ ] Definicao das regras de permissao.
-- [ ] Definicao do editor de conteudo.
-- [ ] Definicao da biblioteca de drag and drop.
-- [ ] Definicao da biblioteca de graficos.
-- [ ] Definicao da estrategia de armazenamento de anexos.
+- [x] Definicao do editor de conteudo.
+- [x] Definicao da biblioteca de drag and drop.
+- [x] Definicao da biblioteca de graficos.
+- [x] Definicao da estrategia de armazenamento de anexos.
 
 ## 15. Indicadores de Sucesso
 
