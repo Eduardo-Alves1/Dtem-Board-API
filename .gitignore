@@ -18,6 +18,3 @@ yarn-error.log*
 Thumbs.db
 .idea/
 .vscode/
-
-# Prisma
-apps/api/prisma/migrations/

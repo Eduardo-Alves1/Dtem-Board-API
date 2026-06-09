@@ -603,7 +603,7 @@ Relacionamentos esperados:
 ## 9. Epicos do Produto
 
 - [x] EP01 - Fundacao tecnica e arquitetura base.
-- [ ] EP02 - Autenticacao, usuarios e controle de acesso.
+- [x] EP02 - Autenticacao, usuarios e controle de acesso.
 - [ ] EP03 - Gestao de projetos.
 - [ ] EP04 - Configuracao de tipos de work items.
 - [ ] EP05 - Hierarquia de backlog.
@@ -718,21 +718,21 @@ Objetivo: implementar base de usuarios, login e controle inicial de acesso.
 
 Atividades:
 
-- [ ] Criar modelo de Usuario.
-- [ ] Criar modelo de Perfil.
-- [ ] Implementar login.
-- [ ] Implementar logout.
-- [ ] Implementar validacao de sessao ou token.
-- [ ] Criar middleware ou guard de autenticacao.
-- [ ] Criar cadastro administrativo de usuarios.
-- [ ] Criar atribuicao de perfis.
-- [ ] Criar validacao basica de permissoes no backend.
+- [x] Criar modelo de Usuario.
+- [x] Criar modelo de Perfil.
+- [x] Implementar login.
+- [x] Implementar logout.
+- [x] Implementar validacao de sessao ou token.
+- [x] Criar middleware ou guard de autenticacao.
+- [x] Criar cadastro administrativo de usuarios.
+- [x] Criar atribuicao de perfis.
+- [x] Criar validacao basica de permissoes no backend.
 
 Entregaveis:
 
-- [ ] Usuarios conseguem autenticar.
-- [ ] Rotas protegidas bloqueiam acesso anonimo.
-- [ ] Administrador consegue gerenciar usuarios e perfis.
+- [x] Usuarios conseguem autenticar.
+- [x] Rotas protegidas bloqueiam acesso anonimo.
+- [x] Administrador consegue gerenciar usuarios e perfis.
 
 ### Sprint 2 - Gestao de Projetos
 
@@ -1018,7 +1018,7 @@ Entregaveis:
 - [x] Definicao da stack tecnica.
 - [x] Definicao do banco de dados.
 - [x] Definicao do padrao de autenticacao.
-- [ ] Definicao das regras de permissao.
+- [x] Definicao das regras de permissao.
 - [x] Definicao do editor de conteudo.
 - [x] Definicao da biblioteca de drag and drop.
 - [x] Definicao da biblioteca de graficos.
