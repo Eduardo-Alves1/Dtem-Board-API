@@ -9,6 +9,6 @@ import { TokenHashService } from './token-hash.service';
   imports: [JwtModule.register({})],
   controllers: [AuthController],
   providers: [AuthService, PasswordService, TokenHashService],
-  exports: [PasswordService],
+  exports: [JwtModule, PasswordService],
 })
 export class AuthModule {}

@@ -8,9 +8,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
+    "incremental": false,
     "paths": {
       "@dtem-board/shared": ["../../packages/shared/src/index.ts"]
     }

@@ -1,7 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import type { HealthResponse } from '@dtem-board/shared';
 import { Public } from '../auth/public.decorator';
+
+type HealthResponse = {
+  status: 'ok';
+  service: string;
+  timestamp: string;
+};
 
 @ApiTags('health')
 @Public()
