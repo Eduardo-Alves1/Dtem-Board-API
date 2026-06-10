@@ -15,6 +15,12 @@ model User {
   isActive     Boolean        @default(true)
   roles        UserRole[]
   projectMemberships ProjectMember[]
+  assignedWorkItems WorkItem[] @relation("WorkItemAssignee")
+  createdWorkItems WorkItem[] @relation("WorkItemCreator")
+  updatedWorkItems WorkItem[] @relation("WorkItemUpdater")
+  comments     WorkItemComment[]
+  attachments  WorkItemAttachment[]
+  historyEntries WorkItemHistory[]
   refreshTokens RefreshToken[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -62,6 +68,9 @@ model Project {
   members            ProjectMember[]
   workItemTypes      ProjectWorkItemType[]
   backlogHierarchies ProjectBacklogHierarchy[]
+  workflowStatuses   WorkflowStatus[]
+  workflowTransitions WorkflowTransition[]
+  workItems          WorkItem[]
 }
 
 model ProjectMember {
@@ -88,6 +97,7 @@ model WorkItemType {
   projectTypes        ProjectWorkItemType[]
   parentHierarchies   ProjectBacklogHierarchy[] @relation("ParentWorkItemType")
   childHierarchies    ProjectBacklogHierarchy[] @relation("ChildWorkItemType")
+  workItems           WorkItem[]
 }
 
 model ProjectWorkItemType {
@@ -115,4 +125,123 @@ model ProjectBacklogHierarchy {
   @@unique([projectId, childTypeId])
   @@unique([projectId, parentTypeId, childTypeId])
   @@index([projectId, level])
+}
+
+model WorkflowStatus {
+  id                  String               @id @default(uuid()) @db.Uuid
+  projectId           String               @db.Uuid
+  name                String
+  key                 String
+  color               String?
+  order               Int                  @default(0)
+  isInitial           Boolean              @default(false)
+  isFinal             Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  project             Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workItems           WorkItem[]
+  fromTransitions     WorkflowTransition[] @relation("WorkflowTransitionFrom")
+  toTransitions       WorkflowTransition[] @relation("WorkflowTransitionTo")
+
+  @@unique([projectId, key])
+  @@index([projectId, order])
+}
+
+model WorkflowTransition {
+  id           String         @id @default(uuid()) @db.Uuid
+  projectId    String         @db.Uuid
+  fromStatusId String         @db.Uuid
+  toStatusId   String         @db.Uuid
+  name         String?
+  createdAt    DateTime       @default(now())
+  project      Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  fromStatus   WorkflowStatus @relation("WorkflowTransitionFrom", fields: [fromStatusId], references: [id], onDelete: Cascade)
+  toStatus     WorkflowStatus @relation("WorkflowTransitionTo", fields: [toStatusId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, fromStatusId, toStatusId])
+  @@index([projectId])
+}
+
+model WorkItem {
+  id                 String                 @id @default(uuid()) @db.Uuid
+  projectId          String                 @db.Uuid
+  typeId             String                 @db.Uuid
+  statusId           String                 @db.Uuid
+  parentId           String?                @db.Uuid
+  assigneeId         String?                @db.Uuid
+  createdById        String                 @db.Uuid
+  updatedById        String?                @db.Uuid
+  title              String
+  description        String?
+  acceptanceCriteria String?
+  priority           String                 @default("MEDIUM")
+  estimate           Float?
+  sprintKey          String?
+  tags               String[]               @default([])
+  archivedAt         DateTime?
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+  project            Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type               WorkItemType           @relation(fields: [typeId], references: [id])
+  status             WorkflowStatus         @relation(fields: [statusId], references: [id])
+  parent             WorkItem?              @relation("WorkItemHierarchy", fields: [parentId], references: [id])
+  children           WorkItem[]             @relation("WorkItemHierarchy")
+  assignee           User?                  @relation("WorkItemAssignee", fields: [assigneeId], references: [id])
+  createdBy          User                   @relation("WorkItemCreator", fields: [createdById], references: [id])
+  updatedBy          User?                  @relation("WorkItemUpdater", fields: [updatedById], references: [id])
+  comments           WorkItemComment[]
+  attachments        WorkItemAttachment[]
+  historyEntries     WorkItemHistory[]
+
+  @@index([projectId, statusId])
+  @@index([projectId, typeId])
+  @@index([assigneeId])
+  @@index([archivedAt])
+}
+
+model WorkItemComment {
+  id         String    @id @default(uuid()) @db.Uuid
+  workItemId String    @db.Uuid
+  authorId   String    @db.Uuid
+  body       String
+  mentions   String[]  @default([])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  workItem   WorkItem  @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  author     User      @relation(fields: [authorId], references: [id])
+
+  @@index([workItemId])
+}
+
+model WorkItemAttachment {
+  id          String    @id @default(uuid()) @db.Uuid
+  workItemId  String    @db.Uuid
+  uploadedById String   @db.Uuid
+  fileName    String
+  contentType String?
+  sizeBytes   Int
+  storageKey  String
+  url         String?
+  createdAt   DateTime  @default(now())
+  deletedAt   DateTime?
+  workItem    WorkItem  @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  uploadedBy  User      @relation(fields: [uploadedById], references: [id])
+
+  @@index([workItemId])
+}
+
+model WorkItemHistory {
+  id         String   @id @default(uuid()) @db.Uuid
+  workItemId String   @db.Uuid
+  actorId    String?  @db.Uuid
+  action     String
+  field      String?
+  oldValue   String?
+  newValue   String?
+  createdAt  DateTime @default(now())
+  workItem   WorkItem @relation(fields: [workItemId], references: [id], onDelete: Cascade)
+  actor      User?    @relation(fields: [actorId], references: [id])
+
+  @@index([workItemId, createdAt])
 }

@@ -76,6 +76,9 @@ Consome:
 - `GET /projects/:id`
 - `GET /projects/:projectId/work-item-types`
 - `GET /projects/:projectId/backlog-hierarchy`
+- `GET /projects/:projectId/workflow/statuses`
+- `GET /projects/:projectId/workflow/transitions`
+- `GET /projects/:projectId/work-items`
 
 ### GET /users
 
@@ -902,6 +905,241 @@ Erros comuns:
 
 - `404 Not Found`: algum tipo informado nao esta habilitado para o projeto.
 - `409 Conflict`: hierarquia sem raiz unica, com duplicidade ou com tipo pai igual ao tipo filho.
+
+## Workflow
+
+### GET /projects/:projectId/workflow/statuses
+
+Lista os status de workflow configurados para um projeto. Na primeira chamada, o sistema cria o fluxo padrao `TODO`, `IN_PROGRESS` e `DONE`.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/projects/<projectId>/workflow/statuses \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### POST /projects/:projectId/workflow/statuses
+
+Cria um status de workflow para o projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "Ready for QA",
+  "key": "READY_FOR_QA",
+  "color": "#2563EB",
+  "order": 3,
+  "isInitial": false,
+  "isFinal": false
+}
+```
+
+### PATCH /projects/:projectId/workflow/statuses/:statusId
+
+Atualiza um status de workflow.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "QA",
+  "order": 3,
+  "isFinal": false
+}
+```
+
+### DELETE /projects/:projectId/workflow/statuses/:statusId
+
+Remove um status nao utilizado por work items ativos.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+### GET /projects/:projectId/workflow/transitions
+
+Lista as transicoes permitidas entre status de workflow.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+### POST /projects/:projectId/workflow/transitions
+
+Cria uma transicao permitida entre status.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "fromStatusId": "uuid-todo",
+  "toStatusId": "uuid-in-progress",
+  "name": "Start progress"
+}
+```
+
+### DELETE /projects/:projectId/workflow/transitions/:transitionId
+
+Remove uma transicao permitida.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+## Work Items
+
+### GET /projects/:projectId/work-items
+
+Lista work items ativos do projeto com filtros e paginacao.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Query params:
+
+- `page`
+- `pageSize`
+- `typeId`
+- `statusId`
+- `assigneeId`
+- `priority`
+- `tag`
+
+Exemplo:
+
+```bash
+curl "http://localhost:3001/api/projects/<projectId>/work-items?page=1&pageSize=20&priority=HIGH" \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### POST /projects/:projectId/work-items
+
+Cria um work item no projeto. O tipo deve estar habilitado para o projeto e a hierarquia pai/filho deve respeitar a configuracao de backlog.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Body:
+
+```json
+{
+  "typeId": "uuid-task",
+  "parentId": "uuid-story",
+  "assigneeId": "uuid-user",
+  "title": "Criar endpoint de backlog",
+  "description": "Implementar listagem inicial.",
+  "acceptanceCriteria": "Retorna itens paginados.",
+  "priority": "HIGH",
+  "estimate": 5,
+  "sprintKey": "SPRINT-1",
+  "tags": ["backend", "backlog"]
+}
+```
+
+### GET /projects/:projectId/work-items/:itemId
+
+Consulta o detalhe de um work item.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+### PATCH /projects/:projectId/work-items/:itemId
+
+Atualiza um work item. Mudancas de status sao bloqueadas quando nao existe transicao permitida no workflow.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Body:
+
+```json
+{
+  "statusId": "uuid-in-progress",
+  "assigneeId": "uuid-user",
+  "priority": "MEDIUM",
+  "estimate": 8,
+  "tags": ["backend"]
+}
+```
+
+### DELETE /projects/:projectId/work-items/:itemId
+
+Arquiva logicamente um work item.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+### GET /projects/:projectId/work-items/:itemId/comments
+
+Lista comentarios ativos do work item.
+
+### POST /projects/:projectId/work-items/:itemId/comments
+
+Adiciona comentario ao work item e registra historico.
+
+Body:
+
+```json
+{
+  "body": "Validar regra de transicao.",
+  "mentions": ["uuid-user"]
+}
+```
+
+### DELETE /projects/:projectId/work-items/:itemId/comments/:commentId
+
+Remove logicamente um comentario.
+
+### GET /projects/:projectId/work-items/:itemId/attachments
+
+Lista anexos ativos do work item.
+
+### POST /projects/:projectId/work-items/:itemId/attachments
+
+Registra metadados de anexo do work item. O upload fisico para MinIO/S3 sera evoluido em fluxo dedicado; esta rota guarda a referencia do objeto.
+
+Body:
+
+```json
+{
+  "fileName": "evidencia.png",
+  "contentType": "image/png",
+  "sizeBytes": 2048,
+  "storageKey": "work-items/uuid/evidencia.png",
+  "url": "http://localhost:9000/dtem-board/evidencia.png"
+}
+```
+
+### DELETE /projects/:projectId/work-items/:itemId/attachments/:attachmentId
+
+Remove logicamente um anexo.
+
+### GET /projects/:projectId/work-items/:itemId/history
+
+Lista o historico do work item, incluindo criacao, edicoes, mudancas de status/responsavel/sprint/prioridade/estimativa, comentarios e anexos.
 
 ## Fluxo Rapido para Teste Manual
 

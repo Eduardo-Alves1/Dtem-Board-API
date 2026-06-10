@@ -8,7 +8,9 @@ import { HealthModule } from './health/health.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
+import { WorkItemsModule } from './work-items/work-items.module';
 import { WorkItemTypesModule } from './work-item-types/work-item-types.module';
+import { WorkflowsModule } from './workflows/workflows.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { WorkItemTypesModule } from './work-item-types/work-item-types.module';
     UsersModule,
     ProjectsModule,
     WorkItemTypesModule,
+    WorkflowsModule,
+    WorkItemsModule,
     HealthModule,
   ],
   providers: [

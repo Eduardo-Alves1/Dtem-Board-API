@@ -607,13 +607,13 @@ Relacionamentos esperados:
 - [x] EP03 - Gestao de projetos.
 - [x] EP04 - Configuracao de tipos de work items.
 - [x] EP05 - Hierarquia de backlog.
-- [ ] EP06 - Cadastro e manutencao de work items.
+- [x] EP06 - Cadastro e manutencao de work items.
 - [ ] EP07 - Board Kanban e drag and drop.
-- [ ] EP08 - Workflows personalizados.
+- [x] EP08 - Workflows personalizados.
 - [ ] EP09 - Gestao de sprints Scrum.
 - [ ] EP10 - Notebook e editor de conteudo.
 - [ ] EP11 - Dashboards e metricas.
-- [ ] EP12 - Auditoria, comentarios e anexos.
+- [x] EP12 - Auditoria, comentarios e anexos.
 - [ ] EP13 - Preparacao para integracoes futuras.
 
 ## 10. Stack Tecnica Recomendada
@@ -806,21 +806,21 @@ Objetivo: implementar cadastro, edicao e consulta de work items.
 
 Atividades:
 
-- [ ] Criar modelo de WorkItem.
-- [ ] Implementar criacao de work items.
-- [ ] Implementar edicao de work items.
-- [ ] Implementar consulta detalhada de work items.
-- [ ] Implementar exclusao logica ou arquivamento.
-- [ ] Implementar campos de titulo, descricao e criterios de aceite.
-- [ ] Implementar responsavel, prioridade, estimativa, sprint e tags.
-- [ ] Implementar filtros por tipo, status, responsavel, prioridade e tags.
-- [ ] Implementar listagem paginada.
+- [x] Criar modelo de WorkItem.
+- [x] Implementar criacao de work items.
+- [x] Implementar edicao de work items.
+- [x] Implementar consulta detalhada de work items.
+- [x] Implementar exclusao logica ou arquivamento.
+- [x] Implementar campos de titulo, descricao e criterios de aceite.
+- [x] Implementar responsavel, prioridade, estimativa, sprint e tags.
+- [x] Implementar filtros por tipo, status, responsavel, prioridade e tags.
+- [x] Implementar listagem paginada.
 
 Entregaveis:
 
-- [ ] Usuario autorizado consegue criar e editar work items.
-- [ ] Work items respeitam configuracao de tipo e hierarquia.
-- [ ] Listagens e filtros principais estao disponiveis.
+- [x] Usuario autorizado consegue criar e editar work items.
+- [x] Work items respeitam configuracao de tipo e hierarquia.
+- [x] Listagens e filtros principais estao disponiveis.
 
 ### Sprint 6 - Comentarios, Anexos e Historico
 
@@ -828,21 +828,21 @@ Objetivo: adicionar colaboracao e rastreabilidade aos work items.
 
 Atividades:
 
-- [ ] Criar modelo de Comentario.
-- [ ] Criar modelo de Anexo.
-- [ ] Criar modelo de HistoricoAlteracao.
-- [ ] Implementar comentarios em work items.
-- [ ] Implementar upload de anexos.
-- [ ] Implementar validacao de tamanho e tipo de arquivo.
-- [ ] Registrar alteracoes relevantes no historico.
-- [ ] Exibir historico no detalhe do item.
-- [ ] Registrar mudancas de status, responsavel, sprint, prioridade e estimativa.
+- [x] Criar modelo de Comentario.
+- [x] Criar modelo de Anexo.
+- [x] Criar modelo de HistoricoAlteracao.
+- [x] Implementar comentarios em work items.
+- [x] Implementar upload de anexos.
+- [x] Implementar validacao de tamanho e tipo de arquivo.
+- [x] Registrar alteracoes relevantes no historico.
+- [x] Exibir historico no detalhe do item.
+- [x] Registrar mudancas de status, responsavel, sprint, prioridade e estimativa.
 
 Entregaveis:
 
-- [ ] Work items possuem comentarios.
-- [ ] Work items possuem anexos.
-- [ ] Historico de alteracoes e exibido ao usuario autorizado.
+- [x] Work items possuem comentarios.
+- [x] Work items possuem anexos.
+- [x] Historico de alteracoes e exibido ao usuario autorizado.
 
 ### Sprint 7 - Workflow Personalizado
 
@@ -850,20 +850,20 @@ Objetivo: permitir que cada projeto configure seus proprios status e transicoes.
 
 Atividades:
 
-- [ ] Criar modelo de StatusWorkflow.
-- [ ] Criar modelo de TransicaoWorkflow.
-- [ ] Implementar CRUD de status por projeto.
-- [ ] Implementar ordenacao de status.
-- [ ] Implementar cores e identificadores visuais.
-- [ ] Implementar transicoes permitidas.
-- [ ] Implementar regra de status final.
-- [ ] Implementar validacao de transicao no backend.
+- [x] Criar modelo de StatusWorkflow.
+- [x] Criar modelo de TransicaoWorkflow.
+- [x] Implementar CRUD de status por projeto.
+- [x] Implementar ordenacao de status.
+- [x] Implementar cores e identificadores visuais.
+- [x] Implementar transicoes permitidas.
+- [x] Implementar regra de status final.
+- [x] Implementar validacao de transicao no backend.
 
 Entregaveis:
 
-- [ ] Projetos possuem workflows configuraveis.
-- [ ] Transicoes invalidas sao bloqueadas.
-- [ ] Status finais sao identificados corretamente.
+- [x] Projetos possuem workflows configuraveis.
+- [x] Transicoes invalidas sao bloqueadas.
+- [x] Status finais sao identificados corretamente.
 
 ### Sprint 8 - Board Kanban
 
