@@ -604,9 +604,9 @@ Relacionamentos esperados:
 
 - [x] EP01 - Fundacao tecnica e arquitetura base.
 - [x] EP02 - Autenticacao, usuarios e controle de acesso.
-- [ ] EP03 - Gestao de projetos.
-- [ ] EP04 - Configuracao de tipos de work items.
-- [ ] EP05 - Hierarquia de backlog.
+- [x] EP03 - Gestao de projetos.
+- [x] EP04 - Configuracao de tipos de work items.
+- [x] EP05 - Hierarquia de backlog.
 - [ ] EP06 - Cadastro e manutencao de work items.
 - [ ] EP07 - Board Kanban e drag and drop.
 - [ ] EP08 - Workflows personalizados.
@@ -740,20 +740,20 @@ Objetivo: permitir criacao e administracao de projetos.
 
 Atividades:
 
-- [ ] Criar modelo de Projeto.
-- [ ] Criar modelo de MembroProjeto.
-- [ ] Implementar CRUD de projetos.
-- [ ] Implementar arquivamento de projetos.
-- [ ] Implementar vinculo de usuarios a projetos.
-- [ ] Implementar permissoes por projeto.
-- [ ] Criar listagem de projetos por usuario.
-- [ ] Criar tela de detalhe do projeto.
+- [x] Criar modelo de Projeto.
+- [x] Criar modelo de MembroProjeto.
+- [x] Implementar CRUD de projetos.
+- [x] Implementar arquivamento de projetos.
+- [x] Implementar vinculo de usuarios a projetos.
+- [x] Implementar permissoes por projeto.
+- [x] Criar listagem de projetos por usuario.
+- [x] Criar rota de detalhe do projeto.
 
 Entregaveis:
 
-- [ ] Administrador consegue criar e configurar projetos.
-- [ ] Usuarios visualizam somente projetos autorizados.
-- [ ] Projetos podem ser arquivados sem perda de historico.
+- [x] Administrador consegue criar e configurar projetos.
+- [x] Usuarios visualizam somente projetos autorizados.
+- [x] Projetos podem ser arquivados sem perda de historico.
 
 ### Sprint 3 - Tipos de Work Items e Hierarquia
 
@@ -761,20 +761,20 @@ Objetivo: configurar tipos de work items e estrutura de backlog por projeto.
 
 Atividades:
 
-- [ ] Criar modelo de TipoWorkItem.
-- [ ] Criar cadastro de tipos padrao.
-- [ ] Implementar CRUD de tipos de work items.
-- [ ] Implementar ativacao e inativacao de tipos.
-- [ ] Implementar configuracao de tipos permitidos por projeto.
-- [ ] Criar configuracao de hierarquia de backlog.
-- [ ] Implementar validacao de relacionamento pai e filho.
-- [ ] Criar visualizacao inicial da arvore de backlog.
+- [x] Criar modelo de TipoWorkItem.
+- [x] Criar cadastro de tipos padrao.
+- [x] Implementar CRUD de tipos de work items.
+- [x] Implementar ativacao e inativacao de tipos.
+- [x] Implementar configuracao de tipos permitidos por projeto.
+- [x] Criar configuracao de hierarquia de backlog.
+- [x] Implementar validacao de relacionamento pai e filho.
+- [x] Criar visualizacao inicial da arvore de backlog.
 
 Entregaveis:
 
-- [ ] Administrador configura tipos por projeto.
-- [ ] Administrador configura hierarquia por projeto.
-- [ ] Sistema valida corretamente relacionamentos entre itens.
+- [x] Administrador configura tipos por projeto.
+- [x] Administrador configura hierarquia por projeto.
+- [x] Sistema valida corretamente relacionamentos entre itens.
 
 ### Sprint 4 - Work Items
 

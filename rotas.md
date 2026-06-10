@@ -501,6 +501,359 @@ Resposta esperada:
 }
 ```
 
+## Projects
+
+### GET /projects
+
+Lista os projetos visiveis para o usuario autenticado. Usuarios `ADMIN` veem todos os projetos ativos; outros usuarios veem somente projetos em que sao membros.
+
+Autenticacao: obrigatoria.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/projects \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### POST /projects
+
+Cria um projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "DTEM Board",
+  "key": "DTEM",
+  "description": "Plataforma de gestao agil de projetos.",
+  "memberIds": ["uuid"]
+}
+```
+
+Exemplo:
+
+```bash
+curl -X POST http://localhost:3001/api/projects \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"name\":\"DTEM Board\",\"key\":\"DTEM\",\"description\":\"Plataforma de gestao agil de projetos.\"}"
+```
+
+### GET /projects/:id
+
+Busca um projeto por ID.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/projects/<projectId> \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### PATCH /projects/:id
+
+Atualiza dados basicos do projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "DTEM Board API",
+  "key": "DTEM",
+  "description": "API da plataforma DTEM Board."
+}
+```
+
+Exemplo:
+
+```bash
+curl -X PATCH http://localhost:3001/api/projects/<projectId> \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"name\":\"DTEM Board API\",\"description\":\"API da plataforma DTEM Board.\"}"
+```
+
+### DELETE /projects/:id
+
+Arquiva um projeto sem remover historico.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Exemplo:
+
+```bash
+curl -X DELETE http://localhost:3001/api/projects/<projectId> \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### POST /projects/:id/members
+
+Adiciona ou atualiza um membro do projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "userId": "uuid",
+  "role": "MEMBER"
+}
+```
+
+Exemplo:
+
+```bash
+curl -X POST http://localhost:3001/api/projects/<projectId>/members \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"userId\":\"<userId>\",\"role\":\"MEMBER\"}"
+```
+
+### PATCH /projects/:id/members/:userId
+
+Atualiza o papel de um membro no projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "role": "OWNER"
+}
+```
+
+Exemplo:
+
+```bash
+curl -X PATCH http://localhost:3001/api/projects/<projectId>/members/<userId> \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"role\":\"OWNER\"}"
+```
+
+### DELETE /projects/:id/members/:userId
+
+Remove um membro do projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Exemplo:
+
+```bash
+curl -X DELETE http://localhost:3001/api/projects/<projectId>/members/<userId> \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+## Work Item Types
+
+### GET /work-item-types
+
+Lista os tipos globais de work items. Na primeira chamada, o sistema garante os tipos padrao: `Epic`, `Feature`, `User Story`, `Task`, `Bug`, `Improvement` e `Spike`.
+
+Autenticacao: obrigatoria.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/work-item-types \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### POST /work-item-types
+
+Cria um tipo global de work item.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "Risk",
+  "description": "Risco identificado no projeto.",
+  "color": "#9333EA",
+  "icon": "RK"
+}
+```
+
+Exemplo:
+
+```bash
+curl -X POST http://localhost:3001/api/work-item-types \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"name\":\"Risk\",\"description\":\"Risco identificado no projeto.\",\"color\":\"#9333EA\",\"icon\":\"RK\"}"
+```
+
+### PATCH /work-item-types/:id
+
+Atualiza um tipo global de work item.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "name": "Risk",
+  "description": "Risco do projeto.",
+  "color": "#9333EA",
+  "icon": "RK",
+  "isActive": true
+}
+```
+
+Exemplo:
+
+```bash
+curl -X PATCH http://localhost:3001/api/work-item-types/<typeId> \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"description\":\"Risco do projeto.\",\"isActive\":true}"
+```
+
+### DELETE /work-item-types/:id
+
+Inativa um tipo global de work item sem apagar historico.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Exemplo:
+
+```bash
+curl -X DELETE http://localhost:3001/api/work-item-types/<typeId> \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### GET /projects/:projectId/work-item-types
+
+Lista os tipos de work item habilitados para um projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/projects/<projectId>/work-item-types \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### PUT /projects/:projectId/work-item-types
+
+Substitui a configuracao de tipos de work item habilitados para um projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "workItemTypeIds": ["uuid-epic", "uuid-feature", "uuid-task"]
+}
+```
+
+Exemplo:
+
+```bash
+curl -X PUT http://localhost:3001/api/projects/<projectId>/work-item-types \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"workItemTypeIds\":[\"<typeId>\"]}"
+```
+
+### GET /projects/:projectId/backlog-hierarchy
+
+Retorna a hierarquia de backlog configurada para o projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN` ou membro do projeto.
+
+Exemplo:
+
+```bash
+curl http://localhost:3001/api/projects/<projectId>/backlog-hierarchy \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+### PUT /projects/:projectId/backlog-hierarchy
+
+Substitui a hierarquia de backlog do projeto.
+
+Autenticacao: obrigatoria.
+
+Permissao: `ADMIN`.
+
+Body:
+
+```json
+{
+  "hierarchy": [
+    {
+      "childTypeId": "uuid-epic",
+      "level": 0
+    },
+    {
+      "parentTypeId": "uuid-epic",
+      "childTypeId": "uuid-feature",
+      "level": 1
+    },
+    {
+      "parentTypeId": "uuid-feature",
+      "childTypeId": "uuid-task",
+      "level": 2
+    }
+  ]
+}
+```
+
+Exemplo:
+
+```bash
+curl -X PUT http://localhost:3001/api/projects/<projectId>/backlog-hierarchy \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <accessToken>" \
+  -d "{\"hierarchy\":[{\"childTypeId\":\"<epicTypeId>\",\"level\":0},{\"parentTypeId\":\"<epicTypeId>\",\"childTypeId\":\"<featureTypeId>\",\"level\":1}]}"
+```
+
+Erros comuns:
+
+- `404 Not Found`: algum tipo informado nao esta habilitado para o projeto.
+- `409 Conflict`: hierarquia sem raiz unica, com duplicidade ou com tipo pai igual ao tipo filho.
+
 ## Fluxo Rapido para Teste Manual
 
 1. Subir dependencias:
@@ -530,4 +883,3 @@ curl -X POST http://localhost:3001/api/auth/bootstrap-admin \
 ```
 
 5. Fazer login e usar o `accessToken` nas rotas protegidas.
-
