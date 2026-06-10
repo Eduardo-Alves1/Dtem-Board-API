@@ -69,7 +69,7 @@ Consome:
 
 ### GET /projects/:id
 
-Tela autenticada com detalhe inicial do projeto, membros, tipos de work item habilitados e hierarquia do backlog.
+Tela autenticada de operacao do projeto com resumo, membros, work items, comentarios, anexos, historico, workflow, tipos de work item habilitados e hierarquia do backlog.
 
 Consome:
 
@@ -79,6 +79,26 @@ Consome:
 - `GET /projects/:projectId/workflow/statuses`
 - `GET /projects/:projectId/workflow/transitions`
 - `GET /projects/:projectId/work-items`
+- `POST /projects/:projectId/work-items`
+- `PATCH /projects/:projectId/work-items/:itemId`
+- `DELETE /projects/:projectId/work-items/:itemId`
+- `GET /projects/:projectId/work-items/:itemId/comments`
+- `POST /projects/:projectId/work-items/:itemId/comments`
+- `DELETE /projects/:projectId/work-items/:itemId/comments/:commentId`
+- `GET /projects/:projectId/work-items/:itemId/attachments`
+- `POST /projects/:projectId/work-items/:itemId/attachments`
+- `DELETE /projects/:projectId/work-items/:itemId/attachments/:attachmentId`
+- `GET /projects/:projectId/work-items/:itemId/history`
+- `GET /work-item-types`
+- `POST /work-item-types`
+- `DELETE /work-item-types/:id`
+- `PUT /projects/:projectId/work-item-types`
+- `PUT /projects/:projectId/backlog-hierarchy`
+- `POST /projects/:projectId/workflow/statuses`
+- `PATCH /projects/:projectId/workflow/statuses/:statusId`
+- `DELETE /projects/:projectId/workflow/statuses/:statusId`
+- `POST /projects/:projectId/workflow/transitions`
+- `DELETE /projects/:projectId/workflow/transitions/:transitionId`
 
 ### GET /users
 
