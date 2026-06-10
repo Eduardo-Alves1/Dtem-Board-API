@@ -776,7 +776,31 @@ Entregaveis:
 - [x] Administrador configura hierarquia por projeto.
 - [x] Sistema valida corretamente relacionamentos entre itens.
 
-### Sprint 4 - Work Items
+### Sprint 4 - Frontend Base e Autenticacao
+
+Objetivo: entregar a base funcional do frontend autenticado para uso inicial do sistema.
+
+Atividades:
+
+- [x] Criar cliente HTTP para integracao com a API.
+- [x] Implementar tela de login.
+- [x] Persistir sessao autenticada no frontend.
+- [x] Proteger rotas autenticadas no frontend.
+- [x] Criar layout autenticado com navegacao principal.
+- [x] Criar tela inicial de projetos.
+- [x] Criar detalhe inicial de projeto com membros, tipos e hierarquia.
+- [x] Criar tela inicial de usuarios para administradores.
+- [x] Implementar estados de carregamento, erro e vazio.
+- [x] Validar build, lint, typecheck e testes.
+
+Entregaveis:
+
+- [x] Usuario consegue autenticar no frontend.
+- [x] Usuario autenticado acessa a area principal do sistema.
+- [x] Usuario visualiza projetos autorizados.
+- [x] Administrador visualiza base de usuarios e papeis.
+
+### Sprint 5 - Work Items
 
 Objetivo: implementar cadastro, edicao e consulta de work items.
 
@@ -798,7 +822,7 @@ Entregaveis:
 - [ ] Work items respeitam configuracao de tipo e hierarquia.
 - [ ] Listagens e filtros principais estao disponiveis.
 
-### Sprint 5 - Comentarios, Anexos e Historico
+### Sprint 6 - Comentarios, Anexos e Historico
 
 Objetivo: adicionar colaboracao e rastreabilidade aos work items.
 
@@ -820,7 +844,7 @@ Entregaveis:
 - [ ] Work items possuem anexos.
 - [ ] Historico de alteracoes e exibido ao usuario autorizado.
 
-### Sprint 6 - Workflow Personalizado
+### Sprint 7 - Workflow Personalizado
 
 Objetivo: permitir que cada projeto configure seus proprios status e transicoes.
 
@@ -841,7 +865,7 @@ Entregaveis:
 - [ ] Transicoes invalidas sao bloqueadas.
 - [ ] Status finais sao identificados corretamente.
 
-### Sprint 7 - Board Kanban
+### Sprint 8 - Board Kanban
 
 Objetivo: entregar o quadro visual de acompanhamento das atividades.
 
@@ -863,7 +887,7 @@ Entregaveis:
 - [ ] Usuario move cartoes entre colunas permitidas.
 - [ ] Historico e metricas sao atualizados apos movimentacao.
 
-### Sprint 8 - Sprints Scrum
+### Sprint 9 - Sprints Scrum
 
 Objetivo: implementar planejamento, execucao e encerramento de sprints.
 
@@ -886,7 +910,7 @@ Entregaveis:
 - [ ] Work items podem ser associados a sprints.
 - [ ] Sprints podem ser iniciadas e encerradas.
 
-### Sprint 9 - Notebook e Editor
+### Sprint 10 - Notebook e Editor
 
 Objetivo: implementar modulo de documentacao e editor de conteudo.
 
@@ -913,7 +937,7 @@ Entregaveis:
 - [ ] Editor atende aos recursos definidos.
 - [ ] Preview em tempo real funciona.
 
-### Sprint 10 - Dashboards e Metricas
+### Sprint 11 - Dashboards e Metricas
 
 Objetivo: entregar dashboards com indicadores operacionais e ageis.
 
@@ -938,7 +962,7 @@ Entregaveis:
 - [ ] Indicadores principais calculados corretamente.
 - [ ] Graficos de sprint disponiveis.
 
-### Sprint 11 - Hardening, QA e Preparacao para Release
+### Sprint 12 - Hardening, QA e Preparacao para Release
 
 Objetivo: estabilizar o produto para primeira entrega utilizavel.
 
@@ -961,7 +985,7 @@ Entregaveis:
 - [ ] Fluxos principais testados.
 - [ ] Documentacao minima disponivel.
 
-### Sprint 12 - Integracoes Futuras - Preparacao Arquitetural
+### Sprint 13 - Integracoes Futuras - Preparacao Arquitetural
 
 Objetivo: preparar pontos de extensao para integracoes externas sem implementar conectores completos.
 

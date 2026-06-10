@@ -40,6 +40,8 @@ Swagger: `http://localhost:3001/docs`
 
 Web: `http://localhost:3000`
 
+Frontend usa `NEXT_PUBLIC_API_URL` para chamar a API. Em ambiente local, o valor padrao e `http://localhost:3001/api`.
+
 ## Scripts
 
 - `npm run dev`: inicia apps em modo desenvolvimento.

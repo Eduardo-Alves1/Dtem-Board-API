@@ -16,6 +16,12 @@ Documentacao Swagger:
 http://localhost:3001/docs
 ```
 
+Base local do frontend:
+
+```text
+http://localhost:3000
+```
+
 Formato padrao:
 
 ```http
@@ -37,6 +43,49 @@ Perfis iniciais:
 - `QA`
 - `STAKEHOLDER`
 - `VIEWER`
+
+## Frontend
+
+### GET /
+
+Redireciona o usuario para `/projects` quando existe sessao local ou para `/login` quando nao existe sessao.
+
+### GET /login
+
+Tela de autenticacao do sistema.
+
+Consome:
+
+- `POST /auth/login`
+
+### GET /projects
+
+Tela autenticada com listagem de projetos visiveis para o usuario.
+
+Consome:
+
+- `GET /projects`
+- `POST /projects`, quando o usuario possui perfil `ADMIN`
+
+### GET /projects/:id
+
+Tela autenticada com detalhe inicial do projeto, membros, tipos de work item habilitados e hierarquia do backlog.
+
+Consome:
+
+- `GET /projects/:id`
+- `GET /projects/:projectId/work-item-types`
+- `GET /projects/:projectId/backlog-hierarchy`
+
+### GET /users
+
+Tela administrativa de usuarios e papeis.
+
+Consome:
+
+- `GET /users`
+- `GET /users/roles`
+- `POST /users`
 
 ## Health
 
