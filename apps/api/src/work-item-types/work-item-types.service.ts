@@ -18,6 +18,16 @@ const defaultWorkItemTypes = [
   { name: 'Spike', description: 'Investigacao tecnica.', color: '#52525B', icon: 'SP' },
 ];
 
+const defaultProjectTypeNames = ['Epic', 'Feature', 'User Story', 'Task', 'Bug'];
+
+const defaultProjectHierarchy = [
+  { parentName: null, childName: 'Epic', level: 0 },
+  { parentName: 'Epic', childName: 'Feature', level: 1 },
+  { parentName: 'Feature', childName: 'User Story', level: 2 },
+  { parentName: 'User Story', childName: 'Task', level: 3 },
+  { parentName: 'User Story', childName: 'Bug', level: 3 },
+];
+
 const workItemTypeSelect = {
   id: true,
   name: true,
@@ -145,6 +155,7 @@ export class WorkItemTypesService {
 
   async getProjectBacklogHierarchy(user: AuthUser, projectId: string) {
     await this.accessService.assertProjectAccess(user, projectId);
+    await this.ensureDefaultProjectBacklogHierarchy(projectId);
 
     const hierarchy = await this.prisma.projectBacklogHierarchy.findMany({
       where: { projectId },
@@ -209,16 +220,56 @@ export class WorkItemTypesService {
       return;
     }
 
-    const activeTypes = await this.prisma.workItemType.findMany({
-      where: { isActive: true },
+    const defaultTypes = await this.prisma.workItemType.findMany({
+      where: {
+        isActive: true,
+        name: { in: defaultProjectTypeNames },
+      },
       select: { id: true },
     });
 
     await this.prisma.projectWorkItemType.createMany({
-      data: activeTypes.map((type) => ({
+      data: defaultTypes.map((type) => ({
         projectId,
         workItemTypeId: type.id,
         isEnabled: true,
+      })),
+      skipDuplicates: true,
+    });
+  }
+
+  private async ensureDefaultProjectBacklogHierarchy(projectId: string) {
+    await this.ensureDefaultProjectWorkItemTypes(projectId);
+    const existingCount = await this.prisma.projectBacklogHierarchy.count({ where: { projectId } });
+
+    if (existingCount > 0) {
+      return;
+    }
+
+    const types = await this.prisma.workItemType.findMany({
+      where: {
+        name: { in: defaultProjectTypeNames },
+        projectTypes: {
+          some: {
+            projectId,
+            isEnabled: true,
+          },
+        },
+      },
+      select: { id: true, name: true },
+    });
+    const typesByName = new Map(types.map((type) => [type.name, type]));
+
+    if (defaultProjectTypeNames.some((name) => !typesByName.has(name))) {
+      return;
+    }
+
+    await this.prisma.projectBacklogHierarchy.createMany({
+      data: defaultProjectHierarchy.map((item) => ({
+        projectId,
+        parentTypeId: item.parentName ? typesByName.get(item.parentName)!.id : null,
+        childTypeId: typesByName.get(item.childName)!.id,
+        level: item.level,
       })),
       skipDuplicates: true,
     });

@@ -42,6 +42,33 @@ const workItemInclude = {
       typeId: true,
     },
   },
+  children: {
+    where: {
+      archivedAt: null,
+    },
+    select: {
+      id: true,
+      title: true,
+      typeId: true,
+      type: {
+        select: {
+          id: true,
+          name: true,
+          color: true,
+          icon: true,
+        },
+      },
+      status: {
+        select: {
+          id: true,
+          name: true,
+          key: true,
+          color: true,
+        },
+      },
+    },
+    orderBy: { createdAt: 'asc' },
+  },
   _count: {
     select: {
       comments: true,
@@ -547,6 +574,7 @@ export class WorkItemsService {
       type: item.type,
       status: item.status,
       parent: item.parent,
+      children: item.children,
       assignee: item.assignee,
       createdBy: item.createdBy,
       updatedBy: item.updatedBy,

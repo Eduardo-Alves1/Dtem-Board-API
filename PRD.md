@@ -1070,3 +1070,65 @@ Uma funcionalidade sera considerada concluida quando:
 - [ ] Historico ou auditoria implementado quando aplicavel.
 - [ ] Documentacao tecnica ou funcional atualizada quando aplicavel.
 - [ ] Funcionalidade revisada e aprovada.
+
+
+## 00. Correções
+
+# CO-01 Estruturas de Projeto
+
+A criação de um projeto não está com a hierarqui que foi previamente pensada.Falando especificamente de:
+
+Projeto
+ └─ Epic
+     └─ Feature
+         └─ User Story
+             ├─ Task
+             └─ Bug
+
+1 - Um projeto sempre terá que existir.
+2 - Na hierarqui de um projeto ele pode ter 0 ou N Epics,Feature, User Story, User Story, Task, Bugs
+
+Projeto
+ └─ Epic
+      └─ Feature1
+            └─ User Story
+             ├─ Task
+             ├─ Task
+             ├─ Task
+             ├─ Task
+             └─ Bug
+      └─ Feature2
+            └─ User Story
+             ├─ Task
+             ├─ Task
+             ├─ Task
+             ├─ Task
+             ├─ Task
+             └─ Bug
+ └─ Epic
+     └─ Feature
+         └─ User Story
+             ├─ Task
+             └─ Bug
+
+Imagem de exemplo             
+![alt text](image.png)
+
+Status:
+
+- [x] Projeto passa a receber estrutura padrão de tipos principais: Epic, Feature, User Story, Task e Bug.
+- [x] Projeto passa a receber hierarquia padrão: Projeto -> Epic -> Feature -> User Story -> Task/Bug.
+- [x] Work items exibem Parent e Child no detalhe para refletir trabalho relacionado.
+- [x] A hierarquia continua permitindo 0 ou N work items em cada nível.
+
+# CO-02
+
+Deve ter na tea do ADM a opção de Editar os usuários cadastrados
+
+Os usuarios cadastrados, não estão aparecendo para ser editados.
+
+Status:
+
+- [x] Tela de ADM lista os usuarios cadastrados.
+- [x] Tela de ADM permite selecionar um usuario para edicao.
+- [x] Tela de ADM permite editar nome, email, status ativo/inativo e papeis.

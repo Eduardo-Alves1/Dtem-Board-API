@@ -484,6 +484,59 @@ export function ProjectWorkItemsView({
             </section>
 
             <section className="rounded-md border border-border bg-white p-4">
+              <h3 className="mb-3 text-sm font-semibold">Trabalho relacionado</h3>
+              <div className="space-y-3">
+                <div>
+                  <p className="mb-2 text-xs font-medium uppercase text-slate-500">Parent</p>
+                  {selectedItem.parent ? (
+                    <button
+                      className="w-full rounded-md border border-border px-3 py-2 text-left text-sm hover:bg-slate-50"
+                      type="button"
+                      onClick={() => {
+                        const parent = items.find((item) => item.id === selectedItem.parent?.id);
+
+                        if (parent) {
+                          selectItem(parent);
+                        }
+                      }}
+                    >
+                      {selectedItem.parent.title}
+                    </button>
+                  ) : (
+                    <EmptySmall text="Sem parent. Este item esta no topo permitido pela hierarquia." />
+                  )}
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-medium uppercase text-slate-500">
+                    Child ({selectedItem.children.length})
+                  </p>
+                  <div className="space-y-2">
+                    {selectedItem.children.map((child) => (
+                      <button
+                        key={child.id}
+                        className="flex w-full items-center justify-between gap-3 rounded-md border border-border px-3 py-2 text-left text-sm hover:bg-slate-50"
+                        type="button"
+                        onClick={() => {
+                          const childItem = items.find((item) => item.id === child.id);
+
+                          if (childItem) {
+                            selectItem(childItem);
+                          }
+                        }}
+                      >
+                        <span className="min-w-0 truncate">{child.title}</span>
+                        <span className="shrink-0 rounded-md bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-600">
+                          {child.type.name}
+                        </span>
+                      </button>
+                    ))}
+                    {!selectedItem.children.length ? <EmptySmall text="Nenhum child cadastrado." /> : null}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-md border border-border bg-white p-4">
               <PanelTitle icon={MessageSquare} title="Comentarios" />
               <form className="mb-3 flex gap-2" onSubmit={handleAddComment}>
                 <input

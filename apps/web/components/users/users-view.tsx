@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
-import { AlertCircle, Plus, RefreshCw, ShieldCheck, Users } from 'lucide-react';
+import { AlertCircle, Edit3, Plus, RefreshCw, Save, ShieldCheck, Users } from 'lucide-react';
 import { apiFetch, ApiError } from '@/lib/api';
 import type { Role, User } from '@/lib/types';
 
@@ -9,9 +9,17 @@ export function UsersView() {
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedRoles, setSelectedRoles] = useState<string[]>(['VIEWER']);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [editForm, setEditForm] = useState({
+    name: '',
+    email: '',
+    isActive: true,
+    roles: [] as string[],
+  });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
 
   async function loadUsers() {
@@ -25,6 +33,14 @@ export function UsersView() {
       ]);
       setUsers(userResponse);
       setRoles(roleResponse);
+      if (selectedUser) {
+        const refreshedUser = userResponse.find((user) => user.id === selectedUser.id) ?? null;
+        setSelectedUser(refreshedUser);
+
+        if (refreshedUser) {
+          setEditForm(fromUser(refreshedUser));
+        }
+      }
     } catch (caughtError) {
       setError(readError(caughtError, 'Nao foi possivel carregar usuarios.'));
     } finally {
@@ -58,6 +74,42 @@ export function UsersView() {
     }
   }
 
+  async function handleUpdateUser(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!selectedUser) {
+      return;
+    }
+
+    setError(null);
+    setIsUpdating(true);
+
+    try {
+      const updatedUser = await apiFetch<User>(`/users/${selectedUser.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: editForm.name.trim(),
+          email: editForm.email.trim(),
+          isActive: editForm.isActive,
+        }),
+      });
+      const updatedRolesUser = await apiFetch<User>(`/users/${selectedUser.id}/roles`, {
+        method: 'PATCH',
+        body: JSON.stringify({ roles: editForm.roles }),
+      });
+      const finalUser = { ...updatedUser, roles: updatedRolesUser.roles };
+      setUsers((currentUsers) =>
+        currentUsers.map((user) => (user.id === finalUser.id ? finalUser : user)),
+      );
+      setSelectedUser(finalUser);
+      setEditForm(fromUser(finalUser));
+    } catch (caughtError) {
+      setError(readError(caughtError, 'Nao foi possivel atualizar o usuario.'));
+    } finally {
+      setIsUpdating(false);
+    }
+  }
+
   function toggleRole(roleName: string) {
     setSelectedRoles((currentRoles) => {
       if (currentRoles.includes(roleName)) {
@@ -67,6 +119,22 @@ export function UsersView() {
 
       return [...currentRoles, roleName];
     });
+  }
+
+  function toggleEditRole(roleName: string) {
+    setEditForm((currentForm) => {
+      if (currentForm.roles.includes(roleName)) {
+        const nextRoles = currentForm.roles.filter((role) => role !== roleName);
+        return { ...currentForm, roles: nextRoles.length ? nextRoles : ['VIEWER'] };
+      }
+
+      return { ...currentForm, roles: [...currentForm.roles, roleName] };
+    });
+  }
+
+  function selectUser(user: User) {
+    setSelectedUser(user);
+    setEditForm(fromUser(user));
   }
 
   useEffect(() => {
@@ -117,11 +185,18 @@ export function UsersView() {
                     <th className="px-4 py-3 font-medium">Email</th>
                     <th className="px-4 py-3 font-medium">Papeis</th>
                     <th className="px-4 py-3 font-medium">Status</th>
+                    <th className="px-4 py-3 font-medium">Ação</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id} className="border-b border-border last:border-b-0">
+                    <tr
+                      key={user.id}
+                      className={`cursor-pointer border-b border-border last:border-b-0 hover:bg-slate-50 ${
+                        selectedUser?.id === user.id ? 'bg-slate-50' : ''
+                      }`}
+                      onClick={() => selectUser(user)}
+                    >
                       <td className="px-4 py-3 font-medium">{user.name}</td>
                       <td className="px-4 py-3 text-slate-600">{user.email}</td>
                       <td className="px-4 py-3">
@@ -141,6 +216,12 @@ export function UsersView() {
                           {user.isActive ? 'Ativo' : 'Inativo'}
                         </span>
                       </td>
+                      <td className="px-4 py-3">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500">
+                          <Edit3 className="h-3.5 w-3.5" aria-hidden="true" />
+                          Editar
+                        </span>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -158,12 +239,13 @@ export function UsersView() {
         )}
       </section>
 
-      <section className="rounded-md border border-border bg-white p-4 xl:sticky xl:top-20 xl:self-start">
-        <div className="flex items-center gap-2">
-          <Plus className="h-4 w-4 text-accent" aria-hidden="true" />
-          <h2 className="text-sm font-semibold">Novo usuario</h2>
-        </div>
-        <form className="mt-4 space-y-4" onSubmit={handleCreateUser}>
+      <aside className="space-y-5 xl:sticky xl:top-20 xl:self-start">
+        <section className="rounded-md border border-border bg-white p-4">
+          <div className="flex items-center gap-2">
+            <Plus className="h-4 w-4 text-accent" aria-hidden="true" />
+            <h2 className="text-sm font-semibold">Novo usuario</h2>
+          </div>
+          <form className="mt-4 space-y-4" onSubmit={handleCreateUser}>
           <Field
             label="Nome"
             value={form.name}
@@ -215,8 +297,81 @@ export function UsersView() {
             <ShieldCheck className="h-4 w-4" aria-hidden="true" />
             {isCreating ? 'Criando...' : 'Criar usuario'}
           </button>
-        </form>
-      </section>
+          </form>
+        </section>
+
+        <section className="rounded-md border border-border bg-white p-4">
+          <div className="flex items-center gap-2">
+            <Edit3 className="h-4 w-4 text-accent" aria-hidden="true" />
+            <h2 className="text-sm font-semibold">Editar usuario</h2>
+          </div>
+          {selectedUser ? (
+            <form className="mt-4 space-y-4" onSubmit={handleUpdateUser}>
+              <Field
+                label="Nome"
+                value={editForm.name}
+                onChange={(name) => setEditForm((currentForm) => ({ ...currentForm, name }))}
+                required
+              />
+              <Field
+                label="Email"
+                type="email"
+                value={editForm.email}
+                onChange={(email) => setEditForm((currentForm) => ({ ...currentForm, email }))}
+                required
+              />
+              <label className="flex items-center gap-2 text-sm text-slate-700">
+                <input
+                  type="checkbox"
+                  checked={editForm.isActive}
+                  onChange={(event) =>
+                    setEditForm((currentForm) => ({
+                      ...currentForm,
+                      isActive: event.target.checked,
+                    }))
+                  }
+                />
+                Usuario ativo
+              </label>
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-slate-700">Papeis</p>
+                <div className="flex flex-wrap gap-2">
+                  {roles.map((role) => {
+                    const selected = editForm.roles.includes(role.name);
+
+                    return (
+                      <button
+                        key={role.id}
+                        className={`rounded-md border px-2 py-1 text-xs font-medium transition ${
+                          selected
+                            ? 'border-slate-900 bg-slate-900 text-white'
+                            : 'border-border bg-white text-slate-700 hover:bg-slate-50'
+                        }`}
+                        type="button"
+                        onClick={() => toggleEditRole(role.name)}
+                      >
+                        {role.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <button
+                className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                type="submit"
+                disabled={isUpdating}
+              >
+                <Save className="h-4 w-4" aria-hidden="true" />
+                {isUpdating ? 'Salvando...' : 'Salvar usuario'}
+              </button>
+            </form>
+          ) : (
+            <p className="mt-4 rounded-md bg-slate-50 px-3 py-6 text-center text-sm text-slate-500">
+              Selecione um usuario na tabela para editar dados, status e papeis.
+            </p>
+          )}
+        </section>
+      </aside>
     </div>
   );
 }
@@ -255,4 +410,13 @@ function Field({
 
 function readError(caughtError: unknown, fallback: string) {
   return caughtError instanceof ApiError ? caughtError.message : fallback;
+}
+
+function fromUser(user: User) {
+  return {
+    name: user.name,
+    email: user.email,
+    isActive: user.isActive,
+    roles: user.roles.length ? user.roles : ['VIEWER'],
+  };
 }

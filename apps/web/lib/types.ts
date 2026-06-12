@@ -96,6 +96,23 @@ export type WorkItem = {
     title: string;
     typeId: string;
   } | null;
+  children: Array<{
+    id: string;
+    title: string;
+    typeId: string;
+    type: {
+      id: string;
+      name: string;
+      color: string | null;
+      icon: string | null;
+    };
+    status: {
+      id: string;
+      name: string;
+      key: string;
+      color: string | null;
+    };
+  }>;
   assignee: {
     id: string;
     name: string;
